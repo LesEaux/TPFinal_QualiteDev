@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="notification" class="alert custom-notification" role="alert" style="display: none;"></div>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">{{ offre.titre }}</h1>
+        <h6 class="text-muted">Publiée le {{ offre.datePublication|date:"d F Y" }}</h6>
+        <p class="card-text">{{ offre.description }}</p>
+        
+        <div class="mt-3">
+          <p><strong>Compétences requises :</strong> {{ offre.competences }}</p>
+          <p><strong>Durée :</strong> {{ offre.duree }}</p>
+          <p><strong>Entreprise :</strong> {{ offre.entreprise }}</p>
+          <p><strong>Thème :</strong> {{ offre.theme }}</p>
+          <p><strong>Adresse e-mail RH :</strong> <a href="mailto:{{ offre.mailRh }}">{{ offre.mailRh }}</a></p>
+        </div>
+
+        <!-- Lien pour candidater par e-mail -->
+        <a href="mailto:{{ offre.mailRh }}?subject=Candidature pour l'offre {{ offre.titre }}" class="btn btn-primary">
+          <i class="fas fa-envelope"></i> Candidater par e-mail
+        </a>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-12 d-flex justify-content-between">
+        <!-- Lien de retour à la liste des offres -->
+        <a href="{% url 'lesApprentiStage:home' %}" class="btn btn-secondary ">
+          <i class="fas fa-arrow-left"></i> Retour à la liste des offres
+        </a>
+        <div class="secretaria-button">
+          {% if request.user.type_utilisateur  == "secretaire" %}
+            {% if not offre.estPublie %}
+              <button id="delete-button" class="btn btn-danger">Refuser</button>
+              <button id="valid-button" class="btn btn-success text-white">Publier</button>
+            {% else %}
+              <button id="delete-button" class="btn btn-danger">Supprimer</button>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+    <style>
+      .custom-notification {
+        position: fixed;
+        top: 5%; 
+        left: 50%; 
+        z-index: 9999;
+      }
+  </style>
+  <script>
+    $("#delete-button").on('click', function(){
+      $.ajax({
+          url: "{% url 'lesApprentiStage:delete_offre' offre.pk %}", 
+          success: function(response) {
+              afficherNotification("Suppresion réussie !", true);
+              window.location.href = "/";
+          },
+          error: function(xhr, status, error) {
+              afficherNotification("Erreur", false);
+          }
+      });
+    });
+
+    $("#valid-button").on('click', function(){
+      $.ajax({
+          url: "{% url 'lesApprentiStage:valid_offre' offre.pk %}", 
+          success: function(response) {
+              afficherNotification("Offre validée !", true);
+              $("#valid-button").hide()
+              $("#delete-button").text("Supprimer")
+
+          },
+          error: function(xhr, status, error) {
+              afficherNotification("Erreur", false);
+          }
+      });
+    });
+
+
+    function afficherNotification(message, estSucces) {
+      var notification = $("#notification");
+      notification.text(message);
+      notification.removeClass("alert-success alert-danger");
+      if (estSucces) {
+        notification.addClass("alert-success");
+      } else {
+        notification.addClass("alert-danger");
+      }
+      notification.show();
+
+      setTimeout(function() {
+        notification.hide();
+      }, 4500);
+    };
+  </script>
+{% endblock %}
