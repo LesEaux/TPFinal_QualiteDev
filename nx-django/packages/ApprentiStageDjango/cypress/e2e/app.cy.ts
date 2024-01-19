@@ -153,3 +153,57 @@ describe('Suppresion de l\' enseignant', () => {
 
   })
 })
+
+
+describe('Connexion', () => {
+  it('passes', () => {
+    cy.visit('http://127.0.0.1:8000/');
+    cy.get(':nth-child(3) > .nav-link').click();
+    cy.get('#id_username').type('etudiant123');
+    cy.get('#id_password').type('etudiantpassword');
+    cy.get('#submit').click();
+    cy.get(':nth-child(2) > .card > .card-body > .btn').click();
+    cy.get('#id_titre').clear();
+    cy.get('#id_titre').type('Offre développement web');
+    cy.get('#id_description').clear();
+    cy.get('#id_description').type('Description de l\'offre');
+    cy.get('#id_competences').clear();
+    cy.get('#id_competences').type('Compétences requises');
+    cy.get('#id_gratification').clear();
+    cy.get('#id_gratification').type('1000');
+    cy.get('#id_dateDeb').clear();
+    cy.get('#id_dateDeb').type('2022-05-10');
+    cy.get('#id_dateFin').clear();
+    cy.get('#id_dateFin').type('2022-08-10');
+    cy.get('[action="/ajout_stage/"] > .mt-3').click();
+    cy.get('#id_nomResp').clear();
+    cy.get('#id_nomResp').type('Nom Responsable');
+    cy.get('#id_prenomResp').clear();
+    cy.get('#id_prenomResp').type('Prenom Responsable');
+    cy.get('#id_emailResp').clear();
+    cy.get('#id_emailResp').type('mailresponsable@mail.com');
+    cy.get('#id_posteResp').clear();
+    cy.get('#id_posteResp').type('Poste Responsable');
+    cy.get('#id_telResp').clear();
+    cy.get('#id_telResp').type('0123456789');
+    cy.get('#id_nomTuteur').clear();
+    cy.get('#id_nomTuteur').type('Nom Tuteur');
+    cy.get('#id_prenomTuteur').clear();
+    cy.get('#id_prenomTuteur').type('Prenom Tuteur');
+    cy.get('#id_metierTuteur').clear();
+    cy.get('#id_metierTuteur').type('Metier Tuteur');
+    cy.get('#id_telTuteur').clear();
+    cy.get('#id_telTuteur').type('0123456789');
+    cy.get('#id_emailTuteur').clear(); 
+    cy.get('#id_emailTuteur').type('mailtuteur@mail.com');
+    cy.get('.btn').click();
+    cy.get('#logout').click();
+    cy.get(':nth-child(3) > .nav-link').click();
+    cy.get('#id_username').type('secretaire789');
+    cy.get('#id_password').type('secretairepassword');
+    cy.get('#submit').click();
+    cy.get('#cardsdefault > :nth-child(2) > .card > .card-body > .btn').click();
+
+    // Tentative de cliquer sur le bouton succès en s'assurant qu'il est visible
+    cy.get('#Doe').click();
+  });
