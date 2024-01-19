@@ -1,3 +1,4 @@
+import { getGreeting } from '../support/app.po';
 describe('Insertion des données de base', () => {
   it('passe même avec un code d\'erreur 500', () => {
     cy.visit('http://127.0.0.1:8000/insert', {
@@ -207,3 +208,4 @@ describe('Connexion', () => {
     // Tentative de cliquer sur le bouton succès en s'assurant qu'il est visible
     cy.get('#Doe').click();
   });
+});
