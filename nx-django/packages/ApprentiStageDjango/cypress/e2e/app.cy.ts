@@ -1,4 +1,11 @@
-import { getGreeting } from '../support/app.po';
+describe('Insertion des données de base', () => {
+  it('passe même avec un code d\'erreur 500', () => {
+    cy.visit('http://127.0.0.1:8000/insert', {
+      failOnStatusCode: false,
+    });
+  });
+});
+
 
 describe('Connexion', () => {
   it('passes', () => {
@@ -57,6 +64,8 @@ describe('Delete des offres', () => {
   })
 })
 
+
+
 describe('Modification d\'un étudiant', () => {
   it('passes', () => {
     cy.visit('http://127.0.0.1:8000/');
@@ -91,11 +100,56 @@ describe('Modification d\'un étudiant', () => {
     cy.get('#id_mailParent').clear().type('parents.email@example.com');
     
     // Select options from dropdowns
-    cy.get('#id_promo').select('3A');
     cy.get('#id_idDepartement').select('Département Informatique');
 
     // Submit the form
     cy.get('.form-actions').contains('Enregistrer les modifications').click();
+
+  })
+})
+
+
+
+describe('Création d\'un enseignant', () => {
+  it('passes', () => {
+    cy.visit('http://127.0.0.1:8000/');
+    cy.get(':nth-child(3) > .nav-link').click();
+    cy.get('#id_username').type('secretaire789');
+    cy.get('#id_password').type('secretairepassword');
+    cy.get('#submit').click();
+
+    cy.get(':nth-child(2) > .nav-link').click();
+    cy.get('#filtre_select').select('enseignant');
+    cy.get('#enseignant_table > .text-center > .btn').click();
+    cy.get('#id_type_utilisateur').select('Enseignant');
+
+    cy.get('#id_username').type('enseignantTest');
+    cy.get('#id_password').type('enseignantTest');
+
+    cy.get('#id_numHarpege').type('9876');
+    cy.get('#id_nomEnseignant').type('Robert');
+    cy.get('#id_prenomEnseignant').type('Paul');
+    cy.get('#id_mailEnseignant').type('robert.paul@enseignant.com');
+    cy.get('#id_roleEnseignant').select('Enseignant Normal')
+    cy.get('#id_telEnseignant').type('9876543210');
+    cy.get('#id_disciplineEnseignant').type('Informatique');
+    cy.get('[style="margin: 0 3%"] > .col').click();
+  })
+})
+
+describe('Suppresion de l\' enseignant', () => {
+  it('passes', () => {
+    cy.visit('http://127.0.0.1:8000/');
+    cy.get(':nth-child(3) > .nav-link').click();
+    cy.get('#id_username').type('secretaire789');
+    cy.get('#id_password').type('secretairepassword');
+    cy.get('#submit').click();
+
+    cy.get(':nth-child(2) > .nav-link').click();
+    cy.get('#filtre_select').select('enseignant');
+
+    cy.get('[data-target="#modalEnseignant9876"] > .text-right > .btn-group > .btn-danger').click();
+    cy.get('.btn-danger').click();
 
   })
 })
