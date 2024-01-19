@@ -79,7 +79,9 @@ describe('Modification d\'un étudiant', () => {
     cy.get('#filtre_select').select('etudiant');
     cy.get('#etudiant_table > .table > tbody > :nth-child(1) > .text-right > .btn-group > .btn-secondary').click();
 
-    cy.get('#id_nomEtu').clear().type('YourName');
+    cy.get('#id_nomEtu').clear();
+    cy.get('#id_nomEtu').type('YourName');
+
     cy.get('#id_prenomEtu').clear().type('YourFirstName');
     cy.get('#id_numDossier').clear().type('9876');
     cy.get('#id_ineEtu').clear().type('2147483');
@@ -156,7 +158,7 @@ describe('Suppresion de l\' enseignant', () => {
 })
 
 
-describe('Connexion', () => {
+describe('creation contrat', () => {
   it('passes', () => {
     cy.visit('http://127.0.0.1:8000/');
     cy.get(':nth-child(3) > .nav-link').click();
@@ -206,6 +208,6 @@ describe('Connexion', () => {
     cy.get('#cardsdefault > :nth-child(2) > .card > .card-body > .btn').click();
 
     // Tentative de cliquer sur le bouton succès en s'assurant qu'il est visible
-    cy.get('#Doe').click();
+    cy.get('#YourName').click();
   });
 });

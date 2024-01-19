@@ -27,7 +27,7 @@
                                     <td>{{ contrat.dateDeb }}</td>
                                     <td>{{ contrat.dateFin }}</td>
                                     <td>
-                                        <a href="{% url 'lesApprentiStage:valider_contrat' contrat.id %}" class="btn btn-success mr-2">Valider</a>
+                                        <a href="{% url 'lesApprentiStage:valider_contrat' contrat.id %}" id="{{contrat.etudiant.nomEtu}}" class="btn btn-success mr-2">Valider</a>
                                         <a href="{% url 'lesApprentiStage:refuser_contrat' contrat.id %}" class="btn btn-danger mr-2">Refuser</a>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalContrat{{ contrat.id }}">
                                             Voir Détails
